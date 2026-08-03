@@ -15,12 +15,12 @@
     margin: 0 auto;
     background: #0D0221;
     border-radius: 8px;
-    border: 4px solid #00F0FF;
+    border: 4px solid #F0FF00;
     box-shadow:
       0 0 0 2px #0D0221,
-      0 0 0 6px #FF2D95,
-      0 0 20px #00F0FF,
-      inset 0 0 30px rgba(0,240,255,0.1);
+      0 0 0 6px #00F0FF,
+      0 0 20px #F0FF00,
+      inset 0 0 30px rgba(240,255,0,0.1);
     padding: 28px;
     position: relative;
     overflow: hidden;
@@ -40,7 +40,7 @@
   }
   .stars {
     position: absolute;
-    color: #F0FF00;
+    color: #00F0FF;
     font-size: 14px;
     opacity: 0.6;
   }
@@ -51,21 +51,21 @@
     z-index: 2;
   }
   .header h1 {
-    font-size: 30px;
-    color: #F0FF00;
+    font-size: 26px;
+    color: #00F0FF;
     text-shadow:
-      3px 3px 0 #FF2D95,
-      -1px -1px 0 #00F0FF,
-      0 0 20px #F0FF00;
-    letter-spacing: 3px;
+      3px 3px 0 #A855F7,
+      -1px -1px 0 #F0FF00,
+      0 0 20px #00F0FF;
+    letter-spacing: 2px;
     font-weight: bold;
   }
   .header .sub {
     font-size: 12px;
-    color: #00F0FF;
+    color: #F0FF00;
     letter-spacing: 4px;
     margin-top: 6px;
-    text-shadow: 0 0 8px #00F0FF;
+    text-shadow: 0 0 8px #F0FF00;
   }
   .insert-coin {
     text-align: center;
@@ -79,103 +79,87 @@
     0%, 50% { opacity: 1; }
     51%, 100% { opacity: 0.3; }
   }
-  .promo-banner {
-    background: #1B0A3F;
-    border: 2px dashed #F0FF00;
-    border-radius: 4px;
-    padding: 10px 16px;
-    text-align: center;
-    margin: 16px 0;
-    font-size: 12px;
-    font-weight: bold;
-    color: #F0FF00;
-    letter-spacing: 1px;
-    line-height: 1.8;
-  }
-  .tiers {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
+
+  .field-group {
     position: relative;
     z-index: 2;
+    margin-top: 18px;
   }
-  .tier {
-    background: #1B0A3F;
-    border-radius: 4px;
-    border: 2px solid;
-    padding: 14px;
-    position: relative;
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 10px;
   }
-  .tier1 { border-color: #00F0FF; box-shadow: 0 0 12px rgba(0,240,255,0.4); }
-  .tier2 { border-color: #FF2D95; box-shadow: 0 0 12px rgba(255,45,149,0.4); }
-  .tier3 { border-color: #F0FF00; box-shadow: 0 0 12px rgba(240,255,0,0.4); }
-  .tier4 { border-color: #A855F7; box-shadow: 0 0 12px rgba(168,85,247,0.4); }
-
-  .tier-title {
-    font-size: 15px;
-    font-weight: bold;
-    text-align: center;
-    margin-bottom: 8px;
-    padding: 6px;
-    border-radius: 3px;
-    letter-spacing: 1px;
+  .field-row3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 10px;
   }
-  .tier1 .tier-title { background: #00F0FF; color: #0D0221; }
-  .tier2 .tier-title { background: #FF2D95; color: #0D0221; }
-  .tier3 .tier-title { background: #F0FF00; color: #0D0221; }
-  .tier4 .tier-title { background: #A855F7; color: #0D0221; }
-
-  .sku-list {
-    font-size: 11px;
-    color: #E0E0FF;
-    margin-bottom: 8px;
-  }
-  .sku-list div {
-    display: flex;
-    justify-content: space-between;
-    padding: 3px 0;
-    border-bottom: 1px dotted #3D1B6B;
-  }
-  .sku-name { color: #E0E0FF; }
-  .sku-price { color: #00F0FF; }
-
-  .promo-line {
-    background: #0D0221;
-    border: 1px dashed #F0FF00;
-    border-radius: 3px;
-    padding: 6px 8px;
-    text-align: center;
+  .field-full { margin-bottom: 10px; }
+  label.field-label {
+    display: block;
     font-size: 10px;
-    font-weight: bold;
     color: #F0FF00;
-    margin-top: 6px;
-    letter-spacing: 0.5px;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+    text-shadow: 0 0 6px #F0FF00;
   }
-
-  .weekly-special {
-    text-align: center;
+  input[type="text"], textarea {
+    width: 100%;
+    font-family: 'Courier New', monospace;
     background: #1B0A3F;
-    border: 2px solid #FF2D95;
-    color: #F0FF00;
-    border-radius: 4px;
-    padding: 10px;
-    margin-top: 16px;
+    border: 2px solid #534AB7;
+    color: #00F0FF;
+    padding: 8px 10px;
+    border-radius: 3px;
     font-size: 12px;
+  }
+  input:focus, textarea:focus {
+    outline: none;
+    border-color: #F0FF00;
+    box-shadow: 0 0 8px rgba(240,255,0,0.5);
+  }
+  textarea { resize: vertical; min-height: 50px; }
+
+  .submit-area {
+    position: relative;
+    z-index: 2;
+    margin-top: 18px;
+    text-align: center;
+  }
+  .submit-btn {
+    font-family: 'Courier New', monospace;
+    background: #00F0FF;
+    border: 2px solid #A855F7;
+    color: #0D0221;
+    padding: 12px 32px;
+    border-radius: 3px;
+    font-size: 14px;
     font-weight: bold;
     letter-spacing: 1px;
-    box-shadow: 0 0 14px rgba(255,45,149,0.3);
+    cursor: pointer;
+    box-shadow: 0 0 12px rgba(0,240,255,0.5);
+  }
+  .submit-btn:active { transform: scale(0.97); }
+  #submitStatus {
+    font-size: 11px;
+    color: #F0FF00;
+    margin-top: 10px;
+    letter-spacing: 1px;
   }
 
   .footer {
     text-align: center;
     margin-top: 18px;
     font-size: 13px;
-    color: #00F0FF;
+    color: #F0FF00;
     font-weight: bold;
     position: relative;
     z-index: 2;
     letter-spacing: 2px;
-    text-shadow: 0 0 8px #00F0FF;
+    text-shadow: 0 0 8px #F0FF00;
   }
   .ufo-row {
     font-size: 24px;
@@ -185,7 +169,7 @@
   .high-score {
     text-align: center;
     font-size: 10px;
-    color: #F0FF00;
+    color: #00F0FF;
     letter-spacing: 2px;
     margin-top: 8px;
     opacity: 0.7;
@@ -201,73 +185,122 @@
   <div class="stars" style="bottom: 90px; right: 25px;">★</div>
 
   <div class="header">
-    <h1>👾 TUAN GALAGA MENU 🛸</h1>
-    <div class="sub">‹ WEEKLY SUPPLY DROP ›</div>
-    <div class="insert-coin">▸ INSERT ORDER TO CONTINUE ◂</div>
+    <h1>👾 TUAN END OF DAY 🛸</h1>
+    <div class="sub">‹ BOSS ROUND RECAP ›</div>
+    <div class="insert-coin">▸ SUBMIT BEFORE YOU CLOCK OUT ◂</div>
   </div>
 
-  <div class="promo-banner">
-    ★ EVERY ORDER = 100 FREE QUASAR KUSH PRE-ROLLS ★<br>
-    EVERY BUYER GETS 1 FREE PRE-ROLL — POWER UP THEIR BAG 👾
-  </div>
+  <div class="field-group">
 
-  <div class="tiers">
-
-    <div class="tier tier1">
-      <div class="tier-title">◆ LEVEL 1 · $500</div>
-      <div class="sku-list">
-        <div><span class="sku-name">XENON 3.5G</span><span class="sku-price">x21 @$6</span></div>
-        <div><span class="sku-name">CARBON FIBER 3.5G</span><span class="sku-price">x21 @$6</span></div>
-        <div><span class="sku-name">MINTZ CONSTELLATION</span><span class="sku-price">x21 @$6</span></div>
-        <div><span class="sku-name">GALACTIC MARKER</span><span class="sku-price">x21 @$6</span></div>
+    <div class="field-row">
+      <div>
+        <label class="field-label">REP NAME</label>
+        <input type="text" id="repName" placeholder="YOUR NAME">
       </div>
-      <div class="promo-line">+100 FREE PRE-ROLLS</div>
+      <div>
+        <label class="field-label">DATE</label>
+        <input type="text" id="reportDate" placeholder="MM/DD">
+      </div>
     </div>
 
-    <div class="tier tier2">
-      <div class="tier-title">◆ LEVEL 2 · $1000</div>
-      <div class="sku-list">
-        <div><span class="sku-name">XENON 3.5G</span><span class="sku-price">x42 @$6</span></div>
-        <div><span class="sku-name">CARBON FIBER 3.5G</span><span class="sku-price">x42 @$6</span></div>
-        <div><span class="sku-name">MINTZ CONSTELLATION</span><span class="sku-price">x42 @$6</span></div>
-        <div><span class="sku-name">GALACTIC MARKER</span><span class="sku-price">x42 @$6</span></div>
+    <div class="field-row3">
+      <div>
+        <label class="field-label">STORES VISITED</label>
+        <input type="text" id="storesVisited" placeholder="#">
       </div>
-      <div class="promo-line">+100 FREE PRE-ROLLS</div>
+      <div>
+        <label class="field-label">SALES CLOSED</label>
+        <input type="text" id="salesClosed" placeholder="#">
+      </div>
+      <div>
+        <label class="field-label">TOTAL REVENUE</label>
+        <input type="text" id="totalRevenue" placeholder="$0">
+      </div>
     </div>
 
-    <div class="tier tier3">
-      <div class="tier-title">◆ LEVEL 3 · $1500</div>
-      <div class="sku-list">
-        <div><span class="sku-name">XENON 3.5G</span><span class="sku-price">x62 @$6</span></div>
-        <div><span class="sku-name">CARBON FIBER 3.5G</span><span class="sku-price">x62 @$6</span></div>
-        <div><span class="sku-name">MINTZ CONSTELLATION</span><span class="sku-price">x62 @$6</span></div>
-        <div><span class="sku-name">GALACTIC MARKER</span><span class="sku-price">x62 @$6</span></div>
-      </div>
-      <div class="promo-line">+100 FREE PRE-ROLLS</div>
+    <div class="field-full">
+      <label class="field-label">BIGGEST WIN TODAY</label>
+      <textarea id="biggestWin" placeholder="WHAT WENT RIGHT"></textarea>
     </div>
 
-    <div class="tier tier4">
-      <div class="tier-title">◆ FINAL BOSS · $2500</div>
-      <div class="sku-list">
-        <div><span class="sku-name">XENON 3.5G</span><span class="sku-price">x104 @$6</span></div>
-        <div><span class="sku-name">CARBON FIBER 3.5G</span><span class="sku-price">x104 @$6</span></div>
-        <div><span class="sku-name">MINTZ CONSTELLATION</span><span class="sku-price">x104 @$6</span></div>
-        <div><span class="sku-name">GALACTIC MARKER</span><span class="sku-price">x104 @$6</span></div>
-      </div>
-      <div class="promo-line">+100 FREE PRE-ROLLS</div>
+    <div class="field-full">
+      <label class="field-label">BIGGEST BLOCKER</label>
+      <textarea id="biggestBlocker" placeholder="WHAT GOT IN THE WAY"></textarea>
+    </div>
+
+    <div class="field-full">
+      <label class="field-label">TOMORROW'S PLAN</label>
+      <textarea id="tomorrowPlan" placeholder="WHAT'S THE MOVE"></textarea>
+    </div>
+
+    <div class="field-full">
+      <label class="field-label">NOTES</label>
+      <textarea id="notes" placeholder="ANYTHING ELSE TO FLAG"></textarea>
     </div>
 
   </div>
 
-  <div class="weekly-special">
-    ★ WEEKLY SPECIAL ★ FREE PRE-ROLL FOR EVERY TUAN BUYER ★
+  <div class="submit-area">
+    <button class="submit-btn" onclick="submitEOD()">▸ SUBMIT END OF DAY ◂</button>
+    <div id="submitStatus"></div>
   </div>
 
   <div class="footer">
     <div class="ufo-row">👾 ▸ 👾 ▸ 👾 ▸ 👾</div>
-    CLOSE ONE. CLOSE THEM ALL. PLANET TUAN.
+    SHOW UP. LOG IT. CLOSE IT. PLANET TUAN.
   </div>
-  <div class="high-score">HIGH SCORE: WHOEVER SELLS OUT FIRST</div>
+  <div class="high-score">HIGH SCORE: MOST SALES CLOSED IN A DAY</div>
 </div>
+
+<script>
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbzTTeMgGfG_IdFfIdtYs8rDwjOG7QBh3WqtwgQ1JvtLDpNlj2oBLhuuQJM8wI7KYLjn/exec";
+
+function submitEOD() {
+  const repName = document.getElementById('repName').value.trim();
+
+  if (!repName) {
+    document.getElementById('submitStatus').innerText = "▸ ENTER YOUR NAME FIRST ◂";
+    document.getElementById('submitStatus').style.color = "#FF2D95";
+    return;
+  }
+
+  const payload = {
+    repName: repName,
+    reportDate: document.getElementById('reportDate').value.trim(),
+    storesVisited: document.getElementById('storesVisited').value.trim(),
+    salesClosed: document.getElementById('salesClosed').value.trim(),
+    totalRevenue: document.getElementById('totalRevenue').value.trim(),
+    biggestWin: document.getElementById('biggestWin').value.trim(),
+    biggestBlocker: document.getElementById('biggestBlocker').value.trim(),
+    tomorrowPlan: document.getElementById('tomorrowPlan').value.trim(),
+    notes: document.getElementById('notes').value.trim()
+  };
+
+  document.getElementById('submitStatus').innerText = "▸ TRANSMITTING... ◂";
+  document.getElementById('submitStatus').style.color = "#00F0FF";
+
+  fetch(SHEET_URL, {
+    method: "POST",
+    mode: "no-cors",
+    headers: { "Content-Type": "text/plain" },
+    body: JSON.stringify(payload)
+  }).then(() => {
+    document.getElementById('submitStatus').innerText = "★ DAY COMPLETE ★ SEE YOU TOMORROW ★";
+    document.getElementById('submitStatus').style.color = "#F0FF00";
+
+    document.getElementById('reportDate').value = "";
+    document.getElementById('storesVisited').value = "";
+    document.getElementById('salesClosed').value = "";
+    document.getElementById('totalRevenue').value = "";
+    document.getElementById('biggestWin').value = "";
+    document.getElementById('biggestBlocker').value = "";
+    document.getElementById('tomorrowPlan').value = "";
+    document.getElementById('notes').value = "";
+  }).catch(() => {
+    document.getElementById('submitStatus').innerText = "▸ CONNECTION FAILED — TRY AGAIN ◂";
+    document.getElementById('submitStatus').style.color = "#FF2D95";
+  });
+}
+</script>
 </body>
 </html>
