@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Courier New', 'Consolas', monospace;
+    background: linear-gradient(180deg, #0D0221 0%, #1B0A3F 40%, #3D1B6B 100%);
+    padding: 24px;
+    min-height: 100vh;
+  }
+  .menu {
+    max-width: 720px;
+    margin: 0 auto;
+    background: #0D0221;
+    border-radius: 8px;
+    border: 4px solid #00F0FF;
+    box-shadow:
+      0 0 0 2px #0D0221,
+      0 0 0 6px #FF2D95,
+      0 0 20px #00F0FF,
+      inset 0 0 30px rgba(0,240,255,0.1);
+    padding: 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  .scanlines {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      rgba(255,255,255,0.02) 0px,
+      rgba(255,255,255,0.02) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+    pointer-events: none;
+    z-index: 5;
+  }
+  .stars {
+    position: absolute;
+    color: #F0FF00;
+    font-size: 14px;
+    opacity: 0.6;
+  }
+  .header {
+    text-align: center;
+    margin-bottom: 18px;
+    position: relative;
+    z-index: 2;
+  }
+  .header h1 {
+    font-size: 28px;
+    color: #F0FF00;
+    text-shadow:
+      3px 3px 0 #FF2D95,
+      -1px -1px 0 #00F0FF,
+      0 0 20px #F0FF00;
+    letter-spacing: 2px;
+    font-weight: bold;
+  }
+  .header .sub {
+    font-size: 12px;
+    color: #00F0FF;
+    letter-spacing: 4px;
+    margin-top: 6px;
+    text-shadow: 0 0 8px #00F0FF;
+  }
+  .insert-coin {
+    text-align: center;
+    color: #FF2D95;
+    font-size: 12px;
+    letter-spacing: 2px;
+    margin-top: 6px;
+    animation: blink 1.2s infinite;
+  }
+  @keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0.3; }
+  }
+  .quad {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    position: relative;
+    z-index: 2;
+    margin-top: 18px;
+  }
+  .box {
+    background: #1B0A3F;
+    border-radius: 4px;
+    border: 2px solid;
+    padding: 16px;
+    position: relative;
+  }
+  .box1 { border-color: #00F0FF; box-shadow: 0 0 12px rgba(0,240,255,0.4); }
+  .box2 { border-color: #FF2D95; box-shadow: 0 0 12px rgba(255,45,149,0.4); }
+  .box3 { border-color: #F0FF00; box-shadow: 0 0 12px rgba(240,255,0,0.4); }
+  .box4 { border-color: #A855F7; box-shadow: 0 0 12px rgba(168,85,247,0.4); }
+
+  .box-title {
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 10px;
+    padding: 8px;
+    border-radius: 3px;
+    letter-spacing: 1px;
+  }
+  .box1 .box-title { background: #00F0FF; color: #0D0221; }
+  .box2 .box-title { background: #FF2D95; color: #0D0221; }
+  .box3 .box-title { background: #F0FF00; color: #0D0221; }
+  .box4 .box-title { background: #A855F7; color: #0D0221; }
+
+  .task-list {
+    font-size: 12px;
+    color: #E0E0FF;
+  }
+  .task-list label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 0;
+    border-bottom: 1px dotted #3D1B6B;
+    cursor: pointer;
+  }
+  .task-list label:last-child { border-bottom: none; }
+  .task-list input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: #F0FF00;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .task-list span { flex: 1; }
+
+  .weekly-special {
+    text-align: center;
+    background: #1B0A3F;
+    border: 2px solid #FF2D95;
+    color: #F0FF00;
+    border-radius: 4px;
+    padding: 10px;
+    margin-top: 16px;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    box-shadow: 0 0 14px rgba(255,45,149,0.3);
+  }
+
+  .footer {
+    text-align: center;
+    margin-top: 18px;
+    font-size: 13px;
+    color: #00F0FF;
+    font-weight: bold;
+    position: relative;
+    z-index: 2;
+    letter-spacing: 2px;
+    text-shadow: 0 0 8px #00F0FF;
+  }
+  .ufo-row {
+    font-size: 24px;
+    margin: 10px 0;
+    letter-spacing: 8px;
+  }
+  .high-score {
+    text-align: center;
+    font-size: 10px;
+    color: #F0FF00;
+    letter-spacing: 2px;
+    margin-top: 8px;
+    opacity: 0.7;
+  }
+</style>
+</head>
+<body>
+<div class="menu">
+  <div class="scanlines"></div>
+  <div class="stars" style="top: 20px; left: 25px;">★</div>
+  <div class="stars" style="top: 50px; right: 30px;">★</div>
+  <div class="stars" style="bottom: 40px; left: 40px;">★</div>
+  <div class="stars" style="bottom: 90px; right: 25px;">★</div>
+
+  <div class="header">
+    <h1>👾 TUAN DAILY QUEST 🛸</h1>
+    <div class="sub">‹ REP CHECKLIST ›</div>
+    <div class="insert-coin">▸ COMPLETE ALL 4 TO WIN THE DAY ◂</div>
+  </div>
+
+  <div class="quad">
+
+    <div class="box box1">
+      <div class="box-title">◆ ROADWORK</div>
+      <div class="task-list">
+        <label><input type="checkbox"><span>Hit target # of stores</span></label>
+        <label><input type="checkbox"><span>Left samples + line sheet</span></label>
+        <label><input type="checkbox"><span>Store drop form filled</span></label>
+        <label><input type="checkbox"><span>Logged temp (hot/warm/cold)</span></label>
+      </div>
+    </div>
+
+    <div class="box box2">
+      <div class="box-title">◆ PROSPECT</div>
+      <div class="task-list">
+        <label><input type="checkbox"><span>3+ new stores identified</span></label>
+        <label><input type="checkbox"><span>Buyer contact collected</span></label>
+        <label><input type="checkbox"><span>Follow up date set</span></label>
+        <label><input type="checkbox"><span>Added to matrix</span></label>
+      </div>
+    </div>
+
+    <div class="box box3">
+      <div class="box-title">◆ ENGAGE</div>
+      <div class="task-list">
+        <label><input type="checkbox"><span>Texted warm leads back</span></label>
+        <label><input type="checkbox"><span>Confirmed any pending orders</span></label>
+        <label><input type="checkbox"><span>Checked in with team</span></label>
+        <label><input type="checkbox"><span>Sent mock order if needed</span></label>
+      </div>
+    </div>
+
+    <div class="box box4">
+      <div class="box-title">◆ ADMIN</div>
+      <div class="task-list">
+        <label><input type="checkbox"><span>Matrix updated same day</span></label>
+        <label><input type="checkbox"><span>EOD message sent</span></label>
+        <label><input type="checkbox"><span>Receipts saved</span></label>
+        <label><input type="checkbox"><span>Tomorrow's route planned</span></label>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="weekly-special">
+    ★ CLOSE 1 = LEVEL UP ★ CLOSE 3 = HIGH SCORE ★
+  </div>
+
+  <div class="footer">
+    <div class="ufo-row">👾 ▸ 👾 ▸ 👾 ▸ 👾</div>
+    SHOW UP. LOG IT. CLOSE IT. PLANET TUAN.
+  </div>
+  <div class="high-score">HIGH SCORE: WHOEVER FINISHES ALL 4 FIRST</div>
+</div>
+</body>
+</html>
