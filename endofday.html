@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Courier New', 'Consolas', monospace;
+    background: linear-gradient(180deg, #0D0221 0%, #1B0A3F 40%, #3D1B6B 100%);
+    padding: 24px;
+    min-height: 100vh;
+  }
+  .menu {
+    max-width: 720px;
+    margin: 0 auto;
+    background: #0D0221;
+    border-radius: 8px;
+    border: 4px solid #00F0FF;
+    box-shadow:
+      0 0 0 2px #0D0221,
+      0 0 0 6px #FF2D95,
+      0 0 20px #00F0FF,
+      inset 0 0 30px rgba(0,240,255,0.1);
+    padding: 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  .scanlines {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      rgba(255,255,255,0.02) 0px,
+      rgba(255,255,255,0.02) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+    pointer-events: none;
+    z-index: 5;
+  }
+  .stars {
+    position: absolute;
+    color: #F0FF00;
+    font-size: 14px;
+    opacity: 0.6;
+  }
+  .header {
+    text-align: center;
+    margin-bottom: 18px;
+    position: relative;
+    z-index: 2;
+  }
+  .header h1 {
+    font-size: 30px;
+    color: #F0FF00;
+    text-shadow:
+      3px 3px 0 #FF2D95,
+      -1px -1px 0 #00F0FF,
+      0 0 20px #F0FF00;
+    letter-spacing: 3px;
+    font-weight: bold;
+  }
+  .header .sub {
+    font-size: 12px;
+    color: #00F0FF;
+    letter-spacing: 4px;
+    margin-top: 6px;
+    text-shadow: 0 0 8px #00F0FF;
+  }
+  .insert-coin {
+    text-align: center;
+    color: #FF2D95;
+    font-size: 12px;
+    letter-spacing: 2px;
+    margin-top: 6px;
+    animation: blink 1.2s infinite;
+  }
+  @keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0.3; }
+  }
+  .promo-banner {
+    background: #1B0A3F;
+    border: 2px dashed #F0FF00;
+    border-radius: 4px;
+    padding: 10px 16px;
+    text-align: center;
+    margin: 16px 0;
+    font-size: 12px;
+    font-weight: bold;
+    color: #F0FF00;
+    letter-spacing: 1px;
+    line-height: 1.8;
+  }
+  .tiers {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    position: relative;
+    z-index: 2;
+  }
+  .tier {
+    background: #1B0A3F;
+    border-radius: 4px;
+    border: 2px solid;
+    padding: 14px;
+    position: relative;
+  }
+  .tier1 { border-color: #00F0FF; box-shadow: 0 0 12px rgba(0,240,255,0.4); }
+  .tier2 { border-color: #FF2D95; box-shadow: 0 0 12px rgba(255,45,149,0.4); }
+  .tier3 { border-color: #F0FF00; box-shadow: 0 0 12px rgba(240,255,0,0.4); }
+  .tier4 { border-color: #A855F7; box-shadow: 0 0 12px rgba(168,85,247,0.4); }
+
+  .tier-title {
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 8px;
+    padding: 6px;
+    border-radius: 3px;
+    letter-spacing: 1px;
+  }
+  .tier1 .tier-title { background: #00F0FF; color: #0D0221; }
+  .tier2 .tier-title { background: #FF2D95; color: #0D0221; }
+  .tier3 .tier-title { background: #F0FF00; color: #0D0221; }
+  .tier4 .tier-title { background: #A855F7; color: #0D0221; }
+
+  .sku-list {
+    font-size: 11px;
+    color: #E0E0FF;
+    margin-bottom: 8px;
+  }
+  .sku-list div {
+    display: flex;
+    justify-content: space-between;
+    padding: 3px 0;
+    border-bottom: 1px dotted #3D1B6B;
+  }
+  .sku-name { color: #E0E0FF; }
+  .sku-price { color: #00F0FF; }
+
+  .promo-line {
+    background: #0D0221;
+    border: 1px dashed #F0FF00;
+    border-radius: 3px;
+    padding: 6px 8px;
+    text-align: center;
+    font-size: 10px;
+    font-weight: bold;
+    color: #F0FF00;
+    margin-top: 6px;
+    letter-spacing: 0.5px;
+  }
+
+  .weekly-special {
+    text-align: center;
+    background: #1B0A3F;
+    border: 2px solid #FF2D95;
+    color: #F0FF00;
+    border-radius: 4px;
+    padding: 10px;
+    margin-top: 16px;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    box-shadow: 0 0 14px rgba(255,45,149,0.3);
+  }
+
+  .footer {
+    text-align: center;
+    margin-top: 18px;
+    font-size: 13px;
+    color: #00F0FF;
+    font-weight: bold;
+    position: relative;
+    z-index: 2;
+    letter-spacing: 2px;
+    text-shadow: 0 0 8px #00F0FF;
+  }
+  .ufo-row {
+    font-size: 24px;
+    margin: 10px 0;
+    letter-spacing: 8px;
+  }
+  .high-score {
+    text-align: center;
+    font-size: 10px;
+    color: #F0FF00;
+    letter-spacing: 2px;
+    margin-top: 8px;
+    opacity: 0.7;
+  }
+</style>
+</head>
+<body>
+<div class="menu">
+  <div class="scanlines"></div>
+  <div class="stars" style="top: 20px; left: 25px;">★</div>
+  <div class="stars" style="top: 50px; right: 30px;">★</div>
+  <div class="stars" style="bottom: 40px; left: 40px;">★</div>
+  <div class="stars" style="bottom: 90px; right: 25px;">★</div>
+
+  <div class="header">
+    <h1>👾 TUAN GALAGA MENU 🛸</h1>
+    <div class="sub">‹ WEEKLY SUPPLY DROP ›</div>
+    <div class="insert-coin">▸ INSERT ORDER TO CONTINUE ◂</div>
+  </div>
+
+  <div class="promo-banner">
+    ★ EVERY ORDER = 100 FREE QUASAR KUSH PRE-ROLLS ★<br>
+    EVERY BUYER GETS 1 FREE PRE-ROLL — POWER UP THEIR BAG 👾
+  </div>
+
+  <div class="tiers">
+
+    <div class="tier tier1">
+      <div class="tier-title">◆ LEVEL 1 · $500</div>
+      <div class="sku-list">
+        <div><span class="sku-name">XENON 3.5G</span><span class="sku-price">x21 @$6</span></div>
+        <div><span class="sku-name">CARBON FIBER 3.5G</span><span class="sku-price">x21 @$6</span></div>
+        <div><span class="sku-name">MINTZ CONSTELLATION</span><span class="sku-price">x21 @$6</span></div>
+        <div><span class="sku-name">GALACTIC MARKER</span><span class="sku-price">x21 @$6</span></div>
+      </div>
+      <div class="promo-line">+100 FREE PRE-ROLLS</div>
+    </div>
+
+    <div class="tier tier2">
+      <div class="tier-title">◆ LEVEL 2 · $1000</div>
+      <div class="sku-list">
+        <div><span class="sku-name">XENON 3.5G</span><span class="sku-price">x42 @$6</span></div>
+        <div><span class="sku-name">CARBON FIBER 3.5G</span><span class="sku-price">x42 @$6</span></div>
+        <div><span class="sku-name">MINTZ CONSTELLATION</span><span class="sku-price">x42 @$6</span></div>
+        <div><span class="sku-name">GALACTIC MARKER</span><span class="sku-price">x42 @$6</span></div>
+      </div>
+      <div class="promo-line">+100 FREE PRE-ROLLS</div>
+    </div>
+
+    <div class="tier tier3">
+      <div class="tier-title">◆ LEVEL 3 · $1500</div>
+      <div class="sku-list">
+        <div><span class="sku-name">XENON 3.5G</span><span class="sku-price">x62 @$6</span></div>
+        <div><span class="sku-name">CARBON FIBER 3.5G</span><span class="sku-price">x62 @$6</span></div>
+        <div><span class="sku-name">MINTZ CONSTELLATION</span><span class="sku-price">x62 @$6</span></div>
+        <div><span class="sku-name">GALACTIC MARKER</span><span class="sku-price">x62 @$6</span></div>
+      </div>
+      <div class="promo-line">+100 FREE PRE-ROLLS</div>
+    </div>
+
+    <div class="tier tier4">
+      <div class="tier-title">◆ FINAL BOSS · $2500</div>
+      <div class="sku-list">
+        <div><span class="sku-name">XENON 3.5G</span><span class="sku-price">x104 @$6</span></div>
+        <div><span class="sku-name">CARBON FIBER 3.5G</span><span class="sku-price">x104 @$6</span></div>
+        <div><span class="sku-name">MINTZ CONSTELLATION</span><span class="sku-price">x104 @$6</span></div>
+        <div><span class="sku-name">GALACTIC MARKER</span><span class="sku-price">x104 @$6</span></div>
+      </div>
+      <div class="promo-line">+100 FREE PRE-ROLLS</div>
+    </div>
+
+  </div>
+
+  <div class="weekly-special">
+    ★ WEEKLY SPECIAL ★ FREE PRE-ROLL FOR EVERY TUAN BUYER ★
+  </div>
+
+  <div class="footer">
+    <div class="ufo-row">👾 ▸ 👾 ▸ 👾 ▸ 👾</div>
+    CLOSE ONE. CLOSE THEM ALL. PLANET TUAN.
+  </div>
+  <div class="high-score">HIGH SCORE: WHOEVER SELLS OUT FIRST</div>
+</div>
+</body>
+</html>
