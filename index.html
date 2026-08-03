@@ -2,16 +2,22 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    overflow-x: hidden;
+    width: 100%;
+  }
   body {
     font-family: 'Courier New', 'Consolas', monospace;
     background: linear-gradient(180deg, #0D0221 0%, #1B0A3F 40%, #3D1B6B 100%);
-    padding: 24px;
+    padding: 24px 16px;
     min-height: 100vh;
   }
   .menu {
     max-width: 720px;
+    width: 100%;
     margin: 0 auto;
     background: #0D0221;
     border-radius: 8px;
@@ -24,6 +30,7 @@
     padding: 28px;
     position: relative;
     overflow: hidden;
+    box-sizing: border-box;
   }
   .scanlines {
     position: absolute;
@@ -172,6 +179,20 @@
     letter-spacing: 2px;
     margin-top: 8px;
     opacity: 0.7;
+  }
+
+  @media (max-width: 480px) {
+    body { padding: 16px 10px; }
+    .menu { padding: 16px; border-width: 3px; }
+    .header h1 { font-size: 21px; letter-spacing: 1px; }
+    .header .sub { font-size: 10px; letter-spacing: 2px; }
+    .insert-coin { font-size: 10px; letter-spacing: 1px; }
+    .quad { grid-template-columns: 1fr; gap: 10px; }
+    .box { padding: 12px; }
+    .box-title { font-size: 14px; }
+    .weekly-special { font-size: 10px; letter-spacing: 0.5px; }
+    .ufo-row { font-size: 18px; letter-spacing: 4px; }
+    .footer { font-size: 11px; letter-spacing: 1px; }
   }
 </style>
 </head>
