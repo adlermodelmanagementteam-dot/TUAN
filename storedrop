@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Courier New', 'Consolas', monospace;
+    background: linear-gradient(180deg, #0D0221 0%, #1B0A3F 40%, #3D1B6B 100%);
+    padding: 24px;
+    min-height: 100vh;
+  }
+  .menu {
+    max-width: 720px;
+    margin: 0 auto;
+    background: #0D0221;
+    border-radius: 8px;
+    border: 4px solid #00F0FF;
+    box-shadow:
+      0 0 0 2px #0D0221,
+      0 0 0 6px #FF2D95,
+      0 0 20px #00F0FF,
+      inset 0 0 30px rgba(0,240,255,0.1);
+    padding: 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  .scanlines {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      rgba(255,255,255,0.02) 0px,
+      rgba(255,255,255,0.02) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+    pointer-events: none;
+    z-index: 5;
+  }
+  .stars {
+    position: absolute;
+    color: #F0FF00;
+    font-size: 14px;
+    opacity: 0.6;
+  }
+  .header {
+    text-align: center;
+    margin-bottom: 18px;
+    position: relative;
+    z-index: 2;
+  }
+  .header h1 {
+    font-size: 26px;
+    color: #F0FF00;
+    text-shadow:
+      3px 3px 0 #FF2D95,
+      -1px -1px 0 #00F0FF,
+      0 0 20px #F0FF00;
+    letter-spacing: 2px;
+    font-weight: bold;
+  }
+  .header .sub {
+    font-size: 12px;
+    color: #00F0FF;
+    letter-spacing: 4px;
+    margin-top: 6px;
+    text-shadow: 0 0 8px #00F0FF;
+  }
+  .insert-coin {
+    text-align: center;
+    color: #FF2D95;
+    font-size: 12px;
+    letter-spacing: 2px;
+    margin-top: 6px;
+    animation: blink 1.2s infinite;
+  }
+  @keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0.3; }
+  }
+
+  .field-group {
+    position: relative;
+    z-index: 2;
+    margin-top: 18px;
+  }
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .field-full { margin-bottom: 10px; }
+  label.field-label {
+    display: block;
+    font-size: 10px;
+    color: #00F0FF;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+    text-shadow: 0 0 6px #00F0FF;
+  }
+  input[type="text"], input[type="tel"], input[type="email"], textarea, select {
+    width: 100%;
+    font-family: 'Courier New', monospace;
+    background: #1B0A3F;
+    border: 2px solid #534AB7;
+    color: #F0FF00;
+    padding: 8px 10px;
+    border-radius: 3px;
+    font-size: 12px;
+  }
+  input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: #00F0FF;
+    box-shadow: 0 0 8px rgba(0,240,255,0.5);
+  }
+  textarea { resize: vertical; min-height: 50px; }
+
+  .temp-select {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+  .temp-btn {
+    font-family: 'Courier New', monospace;
+    background: #1B0A3F;
+    border: 2px solid #534AB7;
+    color: #E0E0FF;
+    padding: 10px 4px;
+    border-radius: 3px;
+    font-size: 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .temp-btn.active {
+    background: #F0FF00;
+    color: #0D0221;
+    border-color: #F0FF00;
+    box-shadow: 0 0 10px rgba(240,255,0,0.5);
+  }
+
+  .status-select {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-top: 4px;
+  }
+  .status-btn {
+    font-family: 'Courier New', monospace;
+    background: #1B0A3F;
+    border: 2px solid #534AB7;
+    color: #E0E0FF;
+    padding: 8px 4px;
+    border-radius: 3px;
+    font-size: 10px;
+    text-align: center;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+  }
+  .status-btn.active {
+    background: #FF2D95;
+    color: #0D0221;
+    border-color: #FF2D95;
+    box-shadow: 0 0 10px rgba(255,45,149,0.5);
+  }
+
+  .submit-area {
+    position: relative;
+    z-index: 2;
+    margin-top: 18px;
+    text-align: center;
+  }
+  .submit-btn {
+    font-family: 'Courier New', monospace;
+    background: #F0FF00;
+    border: 2px solid #FF2D95;
+    color: #0D0221;
+    padding: 12px 32px;
+    border-radius: 3px;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    cursor: pointer;
+    box-shadow: 0 0 12px rgba(240,255,0,0.5);
+  }
+  .submit-btn:active { transform: scale(0.97); }
+  #submitStatus {
+    font-size: 11px;
+    color: #00F0FF;
+    margin-top: 10px;
+    letter-spacing: 1px;
+  }
+
+  .footer {
+    text-align: center;
+    margin-top: 18px;
+    font-size: 13px;
+    color: #00F0FF;
+    font-weight: bold;
+    position: relative;
+    z-index: 2;
+    letter-spacing: 2px;
+    text-shadow: 0 0 8px #00F0FF;
+  }
+  .ufo-row {
+    font-size: 24px;
+    margin: 10px 0;
+    letter-spacing: 8px;
+  }
+  .high-score {
+    text-align: center;
+    font-size: 10px;
+    color: #F0FF00;
+    letter-spacing: 2px;
+    margin-top: 8px;
+    opacity: 0.7;
+  }
+</style>
+</head>
+<body>
+<div class="menu">
+  <div class="scanlines"></div>
+  <div class="stars" style="top: 20px; left: 25px;">★</div>
+  <div class="stars" style="top: 50px; right: 30px;">★</div>
+  <div class="stars" style="bottom: 40px; left: 40px;">★</div>
+  <div class="stars" style="bottom: 90px; right: 25px;">★</div>
+
+  <div class="header">
+    <h1>👾 TUAN STORE DROP 🛸</h1>
+    <div class="sub">‹ DATA CAPTURE ›</div>
+    <div class="insert-coin">▸ LOG EVERY VISIT TO LEVEL UP ◂</div>
+  </div>
+
+  <div class="field-group">
+
+    <div class="field-row">
+      <div>
+        <label class="field-label">REP NAME</label>
+        <input type="text" id="repName" placeholder="YOUR NAME">
+      </div>
+      <div>
+        <label class="field-label">DATE</label>
+        <input type="text" id="visitDate" placeholder="MM/DD">
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div>
+        <label class="field-label">STORE NAME</label>
+        <input type="text" id="storeName" placeholder="e.g. GELATO LAKE ELSINORE">
+      </div>
+      <div>
+        <label class="field-label">CITY</label>
+        <input type="text" id="city" placeholder="e.g. LAKE ELSINORE">
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div>
+        <label class="field-label">BUYER NAME</label>
+        <input type="text" id="buyerName" placeholder="MANAGER / BUYER">
+      </div>
+      <div>
+        <label class="field-label">BUYER PHONE</label>
+        <input type="tel" id="buyerPhone" placeholder="(XXX) XXX-XXXX">
+      </div>
+    </div>
+
+    <div class="field-full">
+      <label class="field-label">BUYER EMAIL</label>
+      <input type="email" id="buyerEmail" placeholder="buyer@store.com">
+    </div>
+
+    <div class="field-full">
+      <label class="field-label">TEMPERATURE</label>
+      <div class="temp-select">
+        <div class="temp-btn" data-temp="HOT">🔥 HOT</div>
+        <div class="temp-btn" data-temp="WARM">🌡 WARM</div>
+        <div class="temp-btn" data-temp="COLD">❄ COLD</div>
+        <div class="temp-btn" data-temp="WHALE">⭐ WHALE</div>
+      </div>
+    </div>
+
+    <div class="field-full">
+      <label class="field-label">VISIT STATUS</label>
+      <div class="status-select">
+        <div class="status-btn" data-status="Spoke to buyer">SPOKE TO BUYER</div>
+        <div class="status-btn" data-status="Left samples">LEFT SAMPLES</div>
+        <div class="status-btn" data-status="Made a sale">MADE A SALE</div>
+        <div class="status-btn" data-status="Buyer not in">BUYER NOT IN</div>
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div>
+        <label class="field-label">SKUS PITCHED</label>
+        <input type="text" id="skusPitched" placeholder="e.g. CARBON FIBER, XENON">
+      </div>
+      <div>
+        <label class="field-label">ORDER TOTAL</label>
+        <input type="text" id="orderTotal" placeholder="$0">
+      </div>
+    </div>
+
+    <div class="field-full">
+      <label class="field-label">NOTES</label>
+      <textarea id="notes" placeholder="WHAT THEY SAID / NEXT STEP / OBJECTIONS"></textarea>
+    </div>
+
+  </div>
+
+  <div class="submit-area">
+    <button class="submit-btn" onclick="submitDrop()">▸ LOG THIS DROP ◂</button>
+    <div id="submitStatus"></div>
+  </div>
+
+  <div class="footer">
+    <div class="ufo-row">👾 ▸ 👾 ▸ 👾 ▸ 👾</div>
+    SHOW UP. LOG IT. CLOSE IT. PLANET TUAN.
+  </div>
+  <div class="high-score">HIGH SCORE: WHOEVER LOGS THE MOST DROPS TODAY</div>
+</div>
+
+<script>
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbxqzpBd6P0DDywMN4ZTObnm36T1j7rMEfukWxybnG9VI42HVLweck8t81LxIttA5hRD/exec";
+
+let selectedTemp = "";
+let selectedStatus = "";
+
+document.querySelectorAll('.temp-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.temp-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    selectedTemp = btn.dataset.temp;
+  });
+});
+
+document.querySelectorAll('.status-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.status-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    selectedStatus = btn.dataset.status;
+  });
+});
+
+function submitDrop() {
+  const repName = document.getElementById('repName').value.trim();
+  const storeName = document.getElementById('storeName').value.trim();
+
+  if (!repName || !storeName) {
+    document.getElementById('submitStatus').innerText = "▸ REP NAME + STORE NAME REQUIRED ◂";
+    document.getElementById('submitStatus').style.color = "#FF2D95";
+    return;
+  }
+
+  const payload = {
+    repName: repName,
+    storeName: storeName,
+    city: document.getElementById('city').value.trim(),
+    buyerName: document.getElementById('buyerName').value.trim(),
+    buyerPhone: document.getElementById('buyerPhone').value.trim(),
+    buyerEmail: document.getElementById('buyerEmail').value.trim(),
+    temperature: selectedTemp,
+    skusPitched: document.getElementById('skusPitched').value.trim(),
+    orderTotal: document.getElementById('orderTotal').value.trim(),
+    notes: (selectedStatus ? "[" + selectedStatus + "] " : "") + document.getElementById('notes').value.trim()
+  };
+
+  document.getElementById('submitStatus').innerText = "▸ TRANSMITTING... ◂";
+  document.getElementById('submitStatus').style.color = "#00F0FF";
+
+  fetch(SHEET_URL, {
+    method: "POST",
+    mode: "no-cors",
+    headers: { "Content-Type": "text/plain" },
+    body: JSON.stringify(payload)
+  }).then(() => {
+    document.getElementById('submitStatus').innerText = "★ DROP LOGGED ★ ON TO THE NEXT ONE ★";
+    document.getElementById('submitStatus').style.color = "#F0FF00";
+
+    document.getElementById('storeName').value = "";
+    document.getElementById('city').value = "";
+    document.getElementById('buyerName').value = "";
+    document.getElementById('buyerPhone').value = "";
+    document.getElementById('buyerEmail').value = "";
+    document.getElementById('skusPitched').value = "";
+    document.getElementById('orderTotal').value = "";
+    document.getElementById('notes').value = "";
+    document.querySelectorAll('.temp-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.status-btn').forEach(b => b.classList.remove('active'));
+    selectedTemp = "";
+    selectedStatus = "";
+  }).catch(() => {
+    document.getElementById('submitStatus').innerText = "▸ CONNECTION FAILED — TRY AGAIN ◂";
+    document.getElementById('submitStatus').style.color = "#FF2D95";
+  });
+}
+</script>
+</body>
+</html>
